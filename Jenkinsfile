@@ -25,13 +25,12 @@ pipeline {
             sh "mvn test"    
          }
      }
-             // 8  // Creates a stage named 'SonarQube analysis'
-      stage('SonarQube Analysis') {
-              steps {
-                  withSonarQubeEnv('SonarQube') {
-                      sh 'sonar-scanner -Dsonar.projectKey=your_key -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
-                  }
-              }                           
+      // stage('SonarQube Analysis') {
+      //   steps {
+      //       withSonarQubeEnv('SonarQube') {
+      //           sh 'sonar-scanner -Dsonar.projectKey=your_key -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
+      //             }
+      //         }                           
 
   }
 }
