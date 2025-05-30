@@ -42,15 +42,14 @@ pipeline {
 
     stage("Build & Push Docker Image") {
       steps {
-        withCredentials([string(credentialsId: 'Docker', variable: 'DOCKER_PASS')]) {
-          script {
-            docker.withRegistry("https://index.docker.io/v1/", "${DOCKER_USER}") {
-              def dockerImage = docker.build("${IMAGE_NAME}")
-              dockerImage.push("${IMAGE_TAG}")
-              dockerImage.push('latest')
+        withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+          docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_USERNAME}") {
+        def dockerImage = docker.build("${IMAGE_NAME}")
+          dockerImage.push("${IMAGE_TAG}")
+          dockerImage.push('latest')
             }
           }
-        }
+
       }
     }
   }
