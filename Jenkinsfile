@@ -26,14 +26,16 @@ pipeline {
             sh "mvn test"    
          }
      }
-      stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'sonar-scanner'
-                }
-            }
-        }                          
-
+     node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    withSonarQubeEnv() {
+      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Pilot-Proj -Dsonar.projectName='Pilot-Proj'"
+    }
+  }
+}
   }
 }
 
