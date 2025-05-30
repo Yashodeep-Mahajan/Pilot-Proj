@@ -3,6 +3,7 @@ pipeline {
   tools {
     jdk "Java17"
     maven "Maven"
+    sonarQube 'SonarQube'
   }
   stages{
     stage ("Cleanup Workspace"){
