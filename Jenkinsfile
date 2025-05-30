@@ -25,12 +25,12 @@ pipeline {
         git branch: 'main', credentialsId: 'github', url: 'https://github.com/Yashodeep-Mahajan/Pilot-Proj.git'
         }
      }
-      stage ("Build Application"){
+    stage ("Build Application"){
         steps{
             sh "mvn clean package"    
         }
      }
-      stage ("Test Application"){
+    stage ("Test Application"){
         steps{
             sh "mvn test"    
          }
