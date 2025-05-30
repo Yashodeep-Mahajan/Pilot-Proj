@@ -10,6 +10,7 @@ pipeline {
     APP_NAME = "register-app-pipeline"
     RELEASE = "1.0.0"
     DOCKER_USER = "monkeymindaroundworld"
+    DOCKER_PASS = 'Docker'
     IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
     IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
   }
