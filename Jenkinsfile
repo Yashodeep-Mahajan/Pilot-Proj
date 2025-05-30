@@ -5,6 +5,16 @@ pipeline {
     maven "Maven"
     sonarQube 'SonarQube'
   }
+   environment {
+  	        APP_NAME = "register-app-pipeline"
+            RELEASE = "1.0.0"
+            DOCKER_USER = "monkeymindaroundworld"
+            DOCKER_PASS = 'Docker'
+            IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+            IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+	          JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
+    }
+  
   stages{
     stage ("Cleanup Workspace"){
       steps{
@@ -26,16 +36,32 @@ pipeline {
             sh "mvn test"    
          }
      }
-     node {
-  stage('SCM') {
-    checkout scm
-  }
-  stage('SonarQube Analysis') {
-    withSonarQubeEnv() {
-      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Pilot-Proj -Dsonar.projectName='Pilot-Proj'"
-    }
-  }
-}
+//      node {
+//   stage('SCM') {
+//     checkout scm
+//   }
+//   stage('SonarQube Analysis') {
+//     withSonarQubeEnv() {
+//       sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Pilot-Proj -Dsonar.projectName='Pilot-Proj'"
+//     }
+//   }
+// }
+      stage("Build & Push Docker Image") {
+            steps {
+                script {
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image.push("${IMAGE_TAG}")
+                        docker_image.push('latest')
+                    }
+                }
+            }
+
+       }
+    
   }
 }
 
