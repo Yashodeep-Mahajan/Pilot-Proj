@@ -26,15 +26,12 @@ pipeline {
          }
      }
              // 8  // Creates a stage named 'SonarQube analysis'
-    node {
-      
       stage('SonarQube Analysis') {
-        def mvn = tool 'Default Maven';
-        withSonarQubeEnv() {
-          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Pilot-Proj -Dsonar.projectName='Pilot-Proj'"
-        }
-      }
-    }                              
+              steps {
+                  withSonarQubeEnv('SonarQube') {
+                      sh 'sonar-scanner -Dsonar.projectKey=your_key -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
+                  }
+              }                           
 
   }
 }
