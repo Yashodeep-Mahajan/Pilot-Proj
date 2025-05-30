@@ -42,7 +42,7 @@ pipeline {
 
     stage("Build & Push Docker Image") {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-password', variable: 'DOCKER_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'Docker', variable: 'DOCKER_PASS')]) {
           script {
             docker.withRegistry("https://index.docker.io/v1/", "${DOCKER_USER}") {
               def dockerImage = docker.build("${IMAGE_NAME}")
