@@ -26,12 +26,13 @@ pipeline {
             sh "mvn test"    
          }
      }
-      // stage('SonarQube Analysis') {
-      //   steps {
-      //       withSonarQubeEnv('SonarQube') {
-      //           sh 'sonar-scanner -Dsonar.projectKey=your_key -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
-      //             }
-      //         }                           
+      stage('SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
+            }
+        }                          
 
   }
 }
